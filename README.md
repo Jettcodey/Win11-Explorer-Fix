@@ -24,7 +24,7 @@
 Windows Default Explorer:
 <img src="./Assets/Default.png">
 
-Changes possible through the script:
+Changes possible through the script(so far):
 <img src="./Assets/Explorer-fix.png">
 
 <p align="right"><a href="#readme-top">Back to top</a></p>
