@@ -57,6 +57,14 @@ if /i "%deleteOneDrive%"=="y" (
 ) else (
     echo OneDrive registry key was not deleted.
 )
+
+set /p disableAnnoyingUSB=Do you want to disable annoying USB notifications (ex. Scan and Fix)? (y/n): 
+if /i "%disableAnnoyingUSB%"=="y" (
+    reg add HKCU\HKCU\SOFTWARE\Microsoft\Shell\USB /v NotifyOnUsbErrors /t REG_DWORD /d 0 /f
+    echo Annoying USB notifications have been disabled.
+) else (
+    echo Annoying USB notifications have not been disabled.
+)
 goto :restartExplorer
 
 :unfixExplorer
@@ -93,15 +101,6 @@ if /i "%restoreOneDrive%"=="y" (
 ) else (
     echo OneDrive entry was not restored.
 )
-
-set /p disableAnnoyingUSB=Do you want to disable annoying USB notifications (ex. Scan and Fix)? (y/n): 
-if /i "%disableAnnoyingUSB%"=="y" (
-    reg add HKCU\HKCU\SOFTWARE\Microsoft\Shell\USB /v NotifyOnUsbErrors /t REG_DWORD /d 0 /f
-    echo Annoying USB notifications have been disabled.
-) else (
-    echo Annoying USB notifications have not been disabled.
-)
-
 goto :restartExplorer
 
 :restartExplorer
