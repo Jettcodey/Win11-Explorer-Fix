@@ -96,7 +96,7 @@ if /i "%restoreOneDrive%"=="y" (
 
 set /p disableAnnoyingUSB=Do you want to disable annoying USB notifications (ex. Scan and Fix)? (y/n): 
 if /i "%disableAnnoyingUSB%"=="y" (
-    reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Desktop\NameSpace\{018D5C66-4533-4307-9B53-224DE2ED1FE6}" /ve /d "OneDrive" /f
+    reg add HKCU\HKCU\SOFTWARE\Microsoft\Shell\USB /v NotifyOnUsbErrors /t REG_DWORD /d 0 /f
     echo Annoying USB notifications have been disabled.
 ) else (
     echo Annoying USB notifications have not been disabled.
