@@ -58,12 +58,22 @@ if /i "%deleteOneDrive%"=="y" (
     echo OneDrive registry key was not deleted.
 )
 
+:: Ask if the user wants to disable annoying USB notifications
 set /p disableAnnoyingUSB=Do you want to disable annoying USB notifications (ex. Scan and Fix)? (y/n): 
 if /i "%disableAnnoyingUSB%"=="y" (
-    reg add HKCU\HKCU\SOFTWARE\Microsoft\Shell\USB /v NotifyOnUsbErrors /t REG_DWORD /d 0 /f
+    reg add HKCU\Software\Microsoft\Shell\USB /v NotifyOnUsbErrors /t REG_DWORD /d 0 /f
     echo Annoying USB notifications have been disabled.
 ) else (
     echo Annoying USB notifications have not been disabled.
+)
+
+:: Ask if the user wants to disable AutoPlay
+set /p disableAutoPlay=Do you want to disable AutoPlay? (y/n): 
+if /i "%disableAnnoyingUSB%"=="y" (
+    reg add HKCU\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer /v NoDriveTypeAutoRun /t REG_DWORD /d 255 /f
+    echo AutoPlay has been disabled.
+) else (
+    echo AutoPlay has not been disabled.
 )
 goto :restartExplorer
 
@@ -105,10 +115,19 @@ if /i "%restoreOneDrive%"=="y" (
 :: Ask if the user wants to restore annoying USB notifications
 set /p disableAnnoyingUSB=Do you want to restore the annoying USB notifications (ex. Scan and Fix)? (y/n): 
 if /i "%restoreAnnoyingUSB%"=="y" (
-    reg add HKCU\HKCU\SOFTWARE\Microsoft\Shell\USB /v NotifyOnUsbErrors /t REG_DWORD /d 0 /f
-    echo Annoying USB notifications have been disabled.
+    reg add HKCU\Software\Microsoft\Shell\USB /v NotifyOnUsbErrors /t REG_DWORD /d 0 /f
+    echo Annoying USB notifications have been restored.
 ) else (
-    echo Annoying USB notifications have not been disabled.
+    echo Annoying USB notifications have not been restored.
+)
+
+:: Ask if the user wants to restore AutoPlay
+set /p disableAutoPlay=Do you want to disable AutoPlay? (y/n): 
+if /i "%disableAnnoyingUSB%"=="y" (
+    reg delete HKCU\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer /v NoDriveTypeAutoRun /f
+    echo AutoPlay has been restored.
+) else (
+    echo AutoPlay has not been restored.
 )
 goto :restartExplorer
 
