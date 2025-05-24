@@ -10,9 +10,6 @@
   </ol>
 </details>
 
-> [!NOTE]
-> NOT FEATURE COMPLETE! MORE TO COME.
-
 > [!WARNING]
 > This Script Modifies Your Windows Registry! Use at your own Risk!
 
