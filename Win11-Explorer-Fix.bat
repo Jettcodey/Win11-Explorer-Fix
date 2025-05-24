@@ -75,6 +75,17 @@ if /i "%disableAnnoyingUSB%"=="y" (
 ) else (
     echo AutoPlay has not been disabled.
 )
+
+:: Hide Start Menu Recommended Section in Start Menu
+set /p hideRecommended=Do you want to hide the Recommended section in Start Menu? (y/n):
+if /i "%hideRecommended%"=="y" (
+    reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\Explorer" /v HideRecommendedSection /t REG_DWORD /d 1 /f
+    reg add "HKLM\SOFTWARE\Microsoft\PolicyManager\current\device\Start" /v HideRecommendedSection /t REG_DWORD /d 1 /f
+    reg add "HKLM\SOFTWARE\Microsoft\PolicyManager\current\device\Education" /v IsEducationEnvironment /t REG_DWORD /d 1 /f
+    echo Hide Recommended section keys applied.
+) else (
+    echo Recommended section will not be hidden.
+)
 goto :restartExplorer
 
 :unfixExplorer
@@ -128,6 +139,17 @@ if /i "%disableAnnoyingUSB%"=="y" (
     echo AutoPlay has been restored.
 ) else (
     echo AutoPlay has not been restored.
+)
+
+:: Ask if the user wants to restore the Start Menu Recommended Section keys
+set /p unhideRecommended=Do you want to restore the Recommended section in Start Menu? (y/n):
+if /i "%unhideRecommended%"=="y" (
+    reg delete "HKLM\SOFTWARE\Policies\Microsoft\Windows\Explorer" /v HideRecommendedSection /f >nul 2>&1
+    reg delete "HKLM\SOFTWARE\Microsoft\PolicyManager\current\device\Start" /v HideRecommendedSection /f >nul 2>&1
+    reg delete "HKLM\SOFTWARE\Microsoft\PolicyManager\current\device\Education" /v IsEducationEnvironment /f >nul 2>&1
+    echo Hide Recommended section keys removed.
+) else (
+    echo Recommended section keys were not changed.
 )
 goto :restartExplorer
 
