@@ -109,6 +109,16 @@ if /i "%hideRecommended%"=="y" (
 ) else (
     echo Recommended section will not be hidden.
 )
+
+:: Ask the user if they use/have the Xbox GameBar/Gaming Overlay installed
+set /p xboxOverlay=Do you have Xbox Game Bar/Gaming Overlay installed? (If not, please enter "n" to proceed to the next prompt.) (y/n): 
+if /i "%xboxOverlay%"=="y" (
+    echo Okay no changes will and need to be made.
+    goto :restartExplorer
+) else (
+    goto :disableXboxGameBar
+)
+
 goto :restartExplorer
 
 :unfixExplorer
@@ -187,6 +197,40 @@ if /i "%unhideRecommended%"=="y" (
     echo Start Menu Recommended section has been restored.
 ) else (
     echo Recommended section keys were not changed.
+)
+
+:: Ask the user if they use/have the Xbox GameBar/Gaming Overlay installed
+set /p xboxOverlay=Did you previously disable the Xbox Game Bar/Gaming Overlay popup because you do not have Xbox Game Bar/Overlay installed? (y/n): 
+if /i "%xboxOverlay%"=="y" (
+    goto :enableXboxGameBar
+) else (
+    echo Okay no changes will and need to be made.
+    goto :restartExplorer
+)
+
+goto :restartExplorer
+
+:: Disable Xbox Game Bar/Overlay Popup "you'll need a new app to open this 'ms-gamingoverlay' link" when Xbox Game Bar is uninstalled 
+:disableXboxGameBar
+set /p disableOverlay=Do you want to disable the "you'll need a new app to open this 'ms-gamingoverlay' link" popup? (y/n): 
+if /i "%disableOverlay%"=="y" (
+    reg add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\GameDVR" /v "AppCaptureEnabled" /t REG_DWORD /d 0 /f
+    reg add "HKCU\System\GameConfigStore" /v "GameDVR_Enabled" /t REG_DWORD /d 0 /f
+    echo Xbox Game Bar popup has been disabled.
+) else (
+    echo Xbox Game Bar popup will not be disabled.
+)
+goto :restartExplorer
+
+:: Enable Xbox Game Bar/Overlay Popup "you'll need a new app to open this 'ms-gamingoverlay' link" when Xbox Game Bar is uninstalled
+:enableXboxGameBar
+set /p enableOverlay=Do you want to restore the "you'll need a new app to open this 'ms-gamingoverlay' link" popup when Xbox GameBar/Overlay is uninstalled? (y/n): 
+if /i "%enableOverlay%"=="y" (
+    reg add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\GameDVR" /v "AppCaptureEnabled" /t REG_DWORD /d 1 /f
+    reg add "HKCU\System\GameConfigStore" /v "GameDVR_Enabled" /t REG_DWORD /d 1 /f
+    echo Xbox Game Bar popup has been enabled.
+) else (
+    echo Xbox Game Bar popup will not be enabled.
 )
 goto :restartExplorer
 
